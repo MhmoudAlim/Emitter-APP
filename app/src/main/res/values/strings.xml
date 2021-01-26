@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Emitter</string>
+    <string name="Api_url">https://jsonplaceholder.typicode.com/users</string>
+
+</resources>

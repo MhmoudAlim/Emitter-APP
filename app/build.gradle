@@ -44,6 +44,9 @@ dependencies {
 // volley library
     implementation 'com.android.volley:volley:1.1.1'
 
+    //Flat Dialog Lib
+    implementation 'com.github.mejdi14:Flat-Dialog-Android:1.0.5'
+
     def lifecycle_version = "2.2.0"
     def arch_version = "2.1.0"
     // ViewModel

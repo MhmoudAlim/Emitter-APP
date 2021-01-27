@@ -56,13 +56,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.userName.setText(AlluserObjects.get(position).getString("name"));
             holder.userPhone.setText(AlluserObjects.get(position).getString("email"));
             holder.userMail.setText(AlluserObjects.get(position).getString("phone"));
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

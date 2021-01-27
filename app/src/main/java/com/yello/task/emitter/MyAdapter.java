@@ -1,6 +1,7 @@
 package com.yello.task.emitter;
 
 import android.content.Context;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,16 +11,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    String[] userNames, userMails, userPhones;
+//    ArrayList<User> users ;
+    ArrayList<JSONObject> AlluserObjects;
     Context context;
 
     // Constructor for initialization
-    public MyAdapter(Context myContext, String[] names, String[] mails, String[] phones) {
-        userNames = names;
-        userMails = mails;
-        userPhones = phones;
+    public MyAdapter(Context myContext, ArrayList<User> AllUsers , ArrayList<JSONObject> userObjects) {
+//        users = AllUsers;
+        AlluserObjects = userObjects;
         context = myContext;
     }
 
@@ -47,21 +53,32 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.userName.setText(userNames[position]);
-        holder.userMail.setText(userMails[position]);
-        holder.userPhone.setText(userPhones[position]);
+//        holder.userName.setText(users.get(position).name);
+//                holder.userMail.setText(users.get(position).email);
+//        holder.userPhone.setText(users.get(position).phone);
+        try {
+            holder.userName.setText(AlluserObjects.get(position).getString("name"));
+            holder.userPhone.setText(AlluserObjects.get(position).getString("email"));
+            holder.userMail.setText(AlluserObjects.get(position).getString("phone"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("s", "item  : " + userNames[position]  + " clicked");
+                Log.i("s", "item  : " + AlluserObjects.get(position)  + " clicked");
+
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return userNames.length;
+        return AlluserObjects.size();
     }
 
 }

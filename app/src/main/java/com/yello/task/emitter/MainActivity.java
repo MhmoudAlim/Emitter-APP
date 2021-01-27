@@ -21,7 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         final String url = getResources().getString(R.string.Api_url);
         queue = Volley.newRequestQueue(this);
 
-        ArrayList<User> AllUsers = new ArrayList<>();
         ArrayList<JSONObject> userObjects = new ArrayList<>();
 
 
@@ -51,27 +49,12 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < response.length() - 1; i++) {
                         if (response.length() > 0) {
                             try {
-
                                 JSONObject user = response.getJSONObject(i);
                                 userObjects.add(user);
 
-                                String name = user.getString("name");
-                                String phone = user.getString("phone");
-                                String email = user.getString("email");
-                                int id = user.getInt("id");
-                                String username = user.getString("username");
-                                String website = user.getString("website");
-
-                                AllUsers.add(new User( id,  name,  username,  email,  phone,  website));
-
-
-
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
-//                            allUsers_names[i] = "Not Available";
-//                            allUsers_phones[i] = "Not Available";
-//                            allUsers_mails[i] = "Not Available";
+
                             }
                         }
 
@@ -89,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Sending reference and data to Adapter
-        adapter = new MyAdapter(MainActivity.this, AllUsers, userObjects);
+        adapter = new MyAdapter(MainActivity.this, userObjects);
 
 
         // Setting Adapter to RecyclerView

@@ -18,13 +18,11 @@ import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-//    ArrayList<User> users ;
     ArrayList<JSONObject> AlluserObjects;
     Context context;
 
     // Constructor for initialization
-    public MyAdapter(Context myContext, ArrayList<User> AllUsers , ArrayList<JSONObject> userObjects) {
-//        users = AllUsers;
+    public MyAdapter(Context myContext,  ArrayList<JSONObject> userObjects) {
         AlluserObjects = userObjects;
         context = myContext;
     }
@@ -53,9 +51,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-//        holder.userName.setText(users.get(position).name);
-//                holder.userMail.setText(users.get(position).email);
-//        holder.userPhone.setText(users.get(position).phone);
+
         try {
             holder.userName.setText(AlluserObjects.get(position).getString("name"));
             holder.userPhone.setText(AlluserObjects.get(position).getString("email"));

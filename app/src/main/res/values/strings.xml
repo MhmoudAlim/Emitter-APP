@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Emitter</string>
     <string name="Api_url">https://jsonplaceholder.typicode.com/users</string>
+    <string name="name">-Name : </string>
+    <string name="phone">-Phone : </string>
+    <string name="email">-Email : </string>
+    <string name="company">-Company : </string>
+    <string name="address">-Address : </string>
 
 </resources>

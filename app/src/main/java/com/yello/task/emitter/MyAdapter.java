@@ -28,7 +28,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     ArrayList<JSONObject> AllUsers;
     Context context;
 
-    // Constructor for initialization
+    // Constructor Adapter initialization
     public MyAdapter(Context myContext, ArrayList<JSONObject> userObjects) {
         AllUsers = userObjects;
         context = myContext;
@@ -52,7 +52,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             userPhone = itemView.findViewById(R.id.userPhone_tv);
             companyName = itemView.findViewById(R.id.companyName_tv);
             address = itemView.findViewById(R.id.address_tv);
-
 
         }
     }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private static MyAdapter adapter;
     private static RecyclerView recyclerView;
     private static ArrayList<JSONObject> userObjects;
-
+    ResponseReceiver responseReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +43,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerView);
 
-        // get the ArrayList of users
+        // registering the receiver of the response of the data presistance in the Receiver App >> MiddleMan APP >> Emitter APP
+        responseReceiver = new ResponseReceiver();
+        IntentFilter filter = new IntentFilter("com.yello.task.emitter.response");
+        registerReceiver(responseReceiver, filter);
+
+        // getting the ArrayList of users
         getUsers(allUsers -> {
             if (allUsers.size() == 0) {
                 // Sending reference and data to Adapter
                 adapter = new MyAdapter(MainActivity.this, allUsers);
-                // Setting Adapter to RecyclerView
                 adapter.notifyDataSetChanged();
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
             }
         });
+
+        // Setting Adapter to RecyclerView
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // SetOnRefreshListener on SwipeRefreshLayout
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
@@ -64,8 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getUsers(
-            Consumer<ArrayList<JSONObject>> usersConsumer) {
+    private void getUsers(Consumer<ArrayList<JSONObject>> usersConsumer) {
         pool = Executors.newFixedThreadPool(2);
         pool.execute(() -> {
             userObjects = new ArrayList<>();

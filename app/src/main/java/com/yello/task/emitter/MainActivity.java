@@ -10,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.android.volley.RequestQueue;
@@ -42,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // registering the receiver of the response of the data presistance in the Receiver App >> MiddleMan APP >> Emitter APP
+        // registering the receiver of the response of the data persistence in the Receiver App >> MiddleMan APP >> Emitter APP
         responseReceiver = new ResponseReceiver();
         IntentFilter filter = new IntentFilter("com.yello.task.emitter.response");
         registerReceiver(responseReceiver, filter);
@@ -53,17 +55,17 @@ public class MainActivity extends AppCompatActivity {
             if (allUsers.size() == 0) {
                 // Sending reference and data to Adapter
                 adapter = new MyAdapter(MainActivity.this, allUsers);
+                // Setting Adapter to RecyclerView
+                recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
         });
 
-        // Setting Adapter to RecyclerView
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // SetOnRefreshListener on SwipeRefreshLayout
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(() -> {
+            recyclerView.setVisibility(View.VISIBLE);
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }, error -> {
+                Log.i(TAG , "API RESPONSE ERROR");
 
             });
             queue.add(request).setTag(TAG);

@@ -6,5 +6,6 @@
     <string name="email">-Email : </string>
     <string name="company">-Company : </string>
     <string name="address">-Address : </string>
+    <string name="website">-Website :</string>
 
 </resources>

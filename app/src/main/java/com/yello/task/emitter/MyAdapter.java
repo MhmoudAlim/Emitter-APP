@@ -43,7 +43,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView userName, userMail, userPhone, companyName, address;
+        TextView userName, userMail, userPhone, companyName, address, website;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -52,6 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             userPhone = itemView.findViewById(R.id.userPhone_tv);
             companyName = itemView.findViewById(R.id.companyName_tv);
             address = itemView.findViewById(R.id.address_tv);
+            website = itemView.findViewById(R.id.website_tv);
 
         }
     }
@@ -65,12 +66,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.userMail.setText(context.getResources().getString(R.string.email) +
                     AllUsers.get(position).getString("email"));
             holder.userPhone.setText(context.getResources().getString(R.string.phone) +
-                    AllUsers.get(position).getString("phone"));
+                    AllUsers.get(position).getString("phone").replace("-" , " "));
             holder.companyName.setText(context.getResources().getString(R.string.company) +
                     AllUsers.get(position).getJSONObject("company").getString("name"));
             holder.address.setText(context.getResources().getString(R.string.address) +
                     AllUsers.get(position).getJSONObject("address").getString("street") +
                     ", " + AllUsers.get(position).getJSONObject("address").getString("city"));
+            holder.website.setText(context.getResources().getString(R.string.website) +
+                    AllUsers.get(position).getString("website"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -81,17 +84,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 String name = AllUsers.get(position).getString("name");
                 flatDialog.setTitle("send User (" +  name + ") to MiddleMan App")
                         .setFirstButtonText("Yes")
-                    .withFirstButtonListner(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent();
-                            intent.setAction("com.yello.task.middleman");
-                            intent.putExtra("com.yello.task.middleman" , AllUsers.get(position).toString());
-                            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                    .withFirstButtonListner(v1 -> {
+                        Intent intent = new Intent();
+                        intent.setAction("com.yello.task.middleman");
+                        intent.putExtra("com.yello.task.middleman" , AllUsers.get(position).toString());
+                        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
 //                            intent.setComponent(new ComponentName("com.yello.task.middleman","com.yello.task.middleman.UserReceiver"));
-                            context.sendBroadcast(intent);
-                            flatDialog.dismiss();
-                        }
+                        context.sendBroadcast(intent);
+                        flatDialog.dismiss();
                     })
                         .setSecondButtonText("CANCEL")
                         .withSecondButtonListner(view -> flatDialog.dismiss())
